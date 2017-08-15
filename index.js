@@ -11,9 +11,7 @@ function searchRepositories(){
 				let response = data.items
 				let responseHTML = `<ul>${response.map(repo => '<li>' + '<a href="' + repo.html_url + '">' + repo.name + '</a>' + ', ' + repo.description + ', ' + ', ' + repo.owner.login + ', ' + repo.owner.url + ', ' + repo.owner.avatar_url + ", " + '<a href="#" data-owner="' + repo.owner.login + '"data-repository="' + repo.name + '" onclick="showCommits(this)">' + 'Show Commits' + '</a>').join('')}</ul>`
   				$('#results').html(responseHTML)
-  				}).fail(function(){
-  					displayError()
-  				})
+  				}).fail(displayError)
 }
 
 function displayError(){
