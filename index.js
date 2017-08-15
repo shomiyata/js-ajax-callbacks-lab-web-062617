@@ -9,9 +9,11 @@ function searchRepositories(){
 		$.get(url)
 			.done(function(data) {
 				let response = data.items
-				let responseHTML = `<ul>${response.map(repo => '<li>' + '<a href="' + repo.html_url + '">' + repo.name + '</a>' + ', ' + repo.description + ', ' + ', ' + repo.owner.login + ', ' + repo.owner.url + ', ' + repo.owner.avatar_url + ", " + '<a href="#" data-owner="' + repo.owner.login + '"data-repo="' + repo.name + '" onclick="showCommits(this)">' + 'Show Commits' + '</a>').join('')}</ul>`
+				let responseHTML = `<ul>${response.map(repo => '<li>' + '<a href="' + repo.html_url + '">' + repo.name + '</a>' + ', ' + repo.description + ', ' + ', ' + repo.owner.login + ', ' + repo.owner.url + ', ' + repo.owner.avatar_url + ", " + '<a href="#" data-owner="' + repo.owner.login + '"data-repository="' + repo.name + '" onclick="showCommits(this)">' + 'Show Commits' + '</a>').join('')}</ul>`
   				$('#results').html(responseHTML)
-  				}).fail(displayError())
+  				}).fail(function(){
+  					displayError()
+  				})
 }
 
 function displayError(){
@@ -26,7 +28,7 @@ response[0].commit.author.name
 
 function showCommits(ele){
 	let userName = ele.dataset.owner
-	let repoName = ele.dataset.repo
+	let repoName = ele.dataset.repository
 	let url = `https://api.github.com/repos/${userName}/${repoName}/commits`
 
 	$.get(url)
